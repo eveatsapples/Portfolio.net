@@ -1,0 +1,459 @@
+﻿@{
+  ViewBag.Title = "Home Page";
+}
+
+@section scripts {
+  @Scripts.Render("~/Scripts/jqueryexercise.js")
+  <script type="text/javascript" src="~/Scripts/SyntaxHighlighter/shCore.js"></script> 
+  <script type="text/javascript" src="~/Scripts/SyntaxHighlighter/shBrushJScript.js"></script>
+  <script type="text/javascript">
+         SyntaxHighlighter.all()
+  </script>
+  <script>
+    $(function () {
+      $(document).scroll(function () {
+        var $nav = $(".navbar");
+          $nav.toggleClass('scrolled', $(this).scrollTop() > $nav.height());
+      });
+    });
+  </script>
+}
+@section styles {
+  <link href="~/Content/SyntaxHighlighter/shCore.css" rel="stylesheet" type="text/css" />
+  <link href="~/Content/SyntaxHighlighter/shThemeDefault.css" rel="stylesheet" type="text/css" />
+}
+
+<div>
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <ul class="nav nav-pills">
+            <li class="modal-pills"><a class="active js-scroll-trigger modal-pill-a" data-toggle="pill" href="#menu1">Exercise 1</a></li>
+            <li class="modal-pills"><a class="js-scroll-trigger modal-pill-a" data-toggle="pill" href="#menu2">Exercise 2</a></li>
+            <li class="modal-pills"><a class="js-scroll-trigger modal-pill-a" data-toggle="pill" href="#menu3">Exercise 3</a></li>
+            <li class="modal-pills"><a class="js-scroll-trigger modal-pill-a" data-toggle="pill" href="#menu4">Exercise 4</a></li>
+          </ul>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="tab-content">
+            <div id="menu1" class="tab-pane fade in active show">
+              <h3>Exercise 1</h3>
+              <form class="doSomeMath">
+                <div class="form-group">
+                  <label for="formGroupExampleInput">Enter 5 Numbers</label>
+                  <input type="number" pattern="[0-9]" step="any" class="form-control" id="doSomeMathInput1" placeholder="first number" required>
+                  <input type="number" pattern="[0-9]" step="any" class="form-control" id="doSomeMathInput2" placeholder="second number" required>
+                  <input type="number" pattern="[0-9]" step="any" class="form-control" id="doSomeMathInput3" placeholder="third number" required>
+                  <input type="number" pattern="[0-9]" step="any" class="form-control" id="doSomeMathInput4" placeholder="fourth number" required>
+                  <input type="number" pattern="[0-9]" step="any" class="form-control" id="doSomeMathInput5" placeholder="fifth number" required>
+                </div>
+                <button type="submit" class="btn btn-default">do Some Math!</button>
+              </form>
+              <div id="lowestNumber"></div>
+              <div id="highestNumber"></div>
+              <div id="mean"></div>
+              <div id="sum"></div>
+              <div id="product"></div>
+              <br/>
+              <button id="ex1-display-btn" class="btn btn-default">show code</button>
+              <div id="ex1-code" class="code hide-code">
+                <pre class="brush: js">
+                  $(".doSomeMath").submit(function (e) {
+                    e.preventDefault();
+
+                    let input1 = $("#doSomeMathInput1").val();
+                    let input2 = $("#doSomeMathInput2").val();
+                    let input3 = $("#doSomeMathInput3").val();
+                    let input4 = $("#doSomeMathInput4").val();
+                    let input5 = $("#doSomeMathInput5").val();
+                    let numbersArr = [input1, input2, input3, input4, input5];
+
+                    let lowestnumber = Math.min.apply(null, numbersArr);
+                    let highestNumber = Math.max.apply(null, numbersArr);
+                    let mean = 0;
+                    let sum = 0;
+                    let product;
+
+                    //find the sum of all the numbers
+                    for (let i = 0; i < numbersArr.length; i++) {
+                      sum = parseFloat(sum) + parseFloat(numbersArr[i])
+                    }
+
+                    // find the mean of the numbers
+                    mean = sum / numbersArr.length;
+
+                    // find the product of all the numbers
+                    product = numbersArr.reduce((a, b) => a * b);
+
+                    $("#lowestNumber").html(`${lowestNumber} is the lowest number`);
+                    $("#highestNumber").html(`${highestNumber} is the highest number`);
+                    $("#mean").html(`${mean} is the mean`);
+                    $("#sum").html(`${sum} is the sum`);
+                    $("#product").html(`${product} is the product`);
+
+                    $("#doSomeMathInput1").val("");
+                    $("#doSomeMathInput2").val("");
+                    $("#doSomeMathInput3").val("");
+                    $("#doSomeMathInput4").val("");
+                    $("#doSomeMathInput5").val("");
+                  });
+                </pre>
+              </div>
+            </div>
+            <div id="menu2" class="tab-pane fade">
+              <h3>Exercise 2</h3>
+              <form class="findFactorial">
+                <div class="form-group">
+                  <label for="formGroupExampleInput">Enter 1 Positive Number</label>
+                  <input type="number" pattern="[0-9]" min="0" class="form-control" id="findFactorialInput" placeholder="some number" required>
+                </div>
+                <button type="submit" class="btn btn-default">Find Factorial!</button>
+              </form>
+              <div id="factorialResult"></div>
+              <br/>
+              <button id="ex2-display-btn" class="btn btn-default">show code</button>
+              <div id="ex2-code" class="code hide-code">
+                <pre class="brush: js">
+                  $(".findFactorial").submit(function (e) {
+                    e.preventDefault();
+                    let input = $("#findFactorialInput").val();
+                    let initialinput = input;
+
+                    const findfactorial = (number) => {
+                      if (number < 0) {
+                        return null;
+                      } else if (number == 0) {
+                        return 1;
+                      } else {
+                        return (number * findfactorial(number - 1));
+                      }
+                    }
+                    let result = findfactorial(input);
+               
+                    $("#factorialresult").html(`the factorial of ${initialinput} is ${result}`);
+                    $("#findFactorialInput").val("");
+                  });
+                </pre>
+              </div>
+            </div>
+            <div id="menu3" class="tab-pane fade">
+              <h3>Exercise 3</h3>
+              <form class="fizzbuzz">
+                <div class="form-group">
+                  <label for="formGroupExampleInput">Enter 2 Numbers Between 1 - 100</label>
+                  <input type="number" pattern="[0-9]" min="1" max="100" class="form-control" id="fizzbuzzInput1" placeholder="number between 1-100" required>
+                  <input type="number" pattern="[0-9]" min="1" max="100" class="form-control" id="fizzbuzzInput2" placeholder="number between 1-100" required>
+                </div>
+                <button type="submit" class="btn btn-default">Calculate!</button>
+              </form>
+              <ul id="fizzbuzzResults"></ul>
+              <br/>
+              <button id="ex3-display-btn" class="btn btn-default">show code</button>
+              <div id="ex3-code" class="code hide-code">
+                <pre class="brush: js">
+                  $(".fizzbuzz").submit(function (e) {
+                    e.preventDefault();
+
+                    let number1 = $("#fizzbuzzInput1").val();
+                    let number2 = $("#fizzbuzzInput2").val();
+                    
+                    $("#fizzbuzzResults").html("");
+                    for (i = 1; i <= 100; i++) {
+                      if (i % number1 === 0 && i % number2 === 0) {
+                        $("#fizzbuzzResults").append("<li>fizzbuzz</li>");
+                      } else if (i % number1 === 0) {
+                        $("#fizzbuzzResults").append("<li>fizz</li>");
+                      } else if (i % number2 === 0) {
+                        $("#fizzbuzzResults").append("<li>buzz</li>");
+                      } else {
+                        $("#fizzbuzzResults").append(`<li>${i}</li>`);
+                      }
+                    }
+
+                    $("#fizzbuzzInput1").val("");
+                    $("#fizzbuzzInput2").val("");
+                  });
+                </pre>
+              </div>
+            </div>
+            <div id="menu4" class="tab-pane fade">
+              <h3>Exercise 4</h3>
+              <form class="palindrome">
+                <div class="form-group">
+                  <label for="formGroupExampleInput">Determine If The Word Is A Palindrome</label>
+                  <input type="text" class="form-control" id="palindromeInput" placeholder="enter a word" required>
+                </div>
+                <button type="submit" class="btn btn-default">Figure It Out!</button>
+              </form>
+              <div class="palindromeResult"></div>
+              <br/>
+              <button id="ex4-display-btn" class="btn btn-default">show code</button>
+              <div id="ex4-code" class="code hide-code">
+                <pre class="brush: js">
+                  $(".palindrome").submit(function (e) {
+                    e.preventDefault();
+
+                    let input = $("#palindromeInput").val();
+                    let reversed = input.split("").reverse().join("");
+                    if (input == reversed) {
+                      $(".palindromeResult").html(`${input} and ${reversed} are the same therefore it is a palindrome`);
+                    } else {
+                      $(".palindromeResult").html(`${input} and ${reversed} are not the same and therefore not a palindrome`);
+                    }
+
+                    $("#palindromeInput").val("");
+                  });
+                </pre>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="#page-top">Everett Penner</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarresponsive" aria-controls="navbarresponsive" aria-expanded="false" aria-label="toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarresponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#about">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#services">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#portfolio">Portfolio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" data-toggle="modal" data-target="#myModal" href="#">Exercises</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <header class="masthead text-center text-white d-flex">
+    <div class="container my-auto">
+      <div class="row">
+        <div class="col-lg-10 mx-auto">
+          <h1 class="text-uppercase">
+            <strong>Software Developer Extraordinaire</strong>
+          </h1>
+          <hr>
+        </div>
+        <div class="col-lg-8 mx-auto">
+          <p class="text-faded mb-5">With a passion for technology and developing software solutions, here I am, ready to assist you and your company with your next project!</p>
+          <a class="btn btn-primary btn-xl js-scroll-trigger" href="#about">find out more</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="bg-primary" id="about">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto text-center">
+          <h2 class="section-heading text-white">I've got what you need!</h2>
+          <hr class="light my-4">
+          <p class="text-faded mb-4">I've got the skills and expertise you are looking for and I can't wait to work with you!</p>
+          <a class="btn btn-light btn-xl js-scroll-trigger" href="#services">LETS DO THIS!</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading">at your service</h2>
+          <hr class="my-4">
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-6 text-center">
+          <div class="service-box mt-5 mx-auto">
+            <i class="fas fa-4x fa-gem text-primary mb-3 sr-icon-1"></i>
+            <h3 class="mb-3">gotta love coding</h3>
+            <p class="text-muted mb-0">good at stuff</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 text-center">
+          <div class="service-box mt-5 mx-auto">
+            <i class="fas fa-4x fa-paper-plane text-primary mb-3 sr-icon-2"></i>
+            <h3 class="mb-3">ready whenever you are</h3>
+            <p class="text-muted mb-0">I'm open and flexable with my schedule</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 text-center">
+          <div class="service-box mt-5 mx-auto">
+            <i class="fas fa-4x fa-code text-primary mb-3 sr-icon-3"></i>
+            <h3 class="mb-3">up to date</h3>
+            <p class="text-muted mb-0">on the front edge of technology, always looking to implement the latest and greatest</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 text-center">
+          <div class="service-box mt-5 mx-auto">
+            <i class="fas fa-4x fa-heart text-primary mb-3 sr-icon-4"></i>
+            <h3 class="mb-3">made with love</h3>
+            <p class="text-muted mb-0">with a love for programing and design I will help make your next project the best of the best</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="p-0" id="portfolio">
+    <div class="container-fluid p-0">
+      <div class="row no-gutters popup-gallery">
+        <div class="col-lg-4 col-sm-6">
+          <a class="portfolio-box" href="https://eveatsapples.github.io/leap-frog/">
+            <img class="img-fluid" src="~/img/portfolio/thumbnails/leap-frog.png" alt="Leap Frog Game">
+            <div class="portfolio-box-caption">
+              <div class="portfolio-box-caption-content">
+                <div class="project-category text-faded">
+                  JavaScript/HTML/CSS
+                </div>
+                <div class="project-name">
+                  LeapFrog
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="col-lg-4 col-sm-6">
+          <a class="portfolio-box" href="https://eveatsapples.github.io/matching-game/">
+            <img class="img-fluid" src="~/img/portfolio/thumbnails/matching-game.png" alt="Matching Game">
+            <div class="portfolio-box-caption">
+              <div class="portfolio-box-caption-content">
+                <div class="project-category text-faded">
+                  JavaScript/HTML/CSS
+                </div>
+                <div class="project-name">
+                  Matching Game
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="col-lg-4 col-sm-6">
+          <a class="portfolio-box" href="https://eveatsapples.github.io/movie-database/">
+            <img class="img-fluid" src="~/img/portfolio/thumbnails/movie-db.png" alt="Movie Database">
+            <div class="portfolio-box-caption">
+              <div class="portfolio-box-caption-content">
+                <div class="project-category text-faded">
+                  React
+                </div>
+                <div class="project-name">
+                  Movie Database
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="col-lg-4 col-sm-6">
+          <a class="portfolio-box" href="https://eveatsapples.github.io/my-reads/">
+            <img class="img-fluid" src="~/img/portfolio/thumbnails/my-reads.png" alt="My Reads, Book Database">
+            <div class="portfolio-box-caption">
+              <div class="portfolio-box-caption-content">
+                <div class="project-category text-faded">
+                  React
+                </div>
+                <div class="project-name">
+                  My Reads
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="col-lg-4 col-sm-6">
+          <a class="portfolio-box" href="https://eveatsapples.github.io/pig-game/">
+            <img class="img-fluid" src="~/img/portfolio/thumbnails/pig-game.png" alt="Pig Game, Dice Game">
+            <div class="portfolio-box-caption">
+              <div class="portfolio-box-caption-content">
+                <div class="project-category text-faded">
+                  JavaScript/HTML/CSS
+                </div>
+                <div class="project-name">
+                  Pig Game
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="col-lg-4 col-sm-6">
+          <a class="portfolio-box" href="https://eveatsapples.github.io/restaurant-review-app/">
+            <img class="img-fluid" src="~/img/portfolio/thumbnails/restaurant-reviews.png" alt="Restaurant Reviews App">
+            <div class="portfolio-box-caption">
+              <div class="portfolio-box-caption-content">
+                <div class="project-category text-faded">
+                  Offline First App
+                </div>
+                <div class="project-name">
+                  Restaurant Reviews
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-dark text-white">
+    <div class="container text-center">
+      <h2 class="mb-4">Check out my Resume!</h2>
+      <a class="btn btn-light btn-xl sr-button" href="~/Downloadables/EverettPenner_resume.pdf">Download Resume</a>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="row">
+      <div class="col-lg-8 mx-auto text-center">
+        <h2 class="section-heading">Let's get in touch!</h2>
+        <hr class="my-4">
+        <p class="mb-5">ready to start your next project with me? that's great! give me a call or send me an email and I will get back to you as soon as possible!</p>
+      </div>
+    </div>
+    <div class="contact-container container">
+      <div class="row">
+        <form id="contact" action="" method="post">
+          <fieldset>
+            <input placeholder="Your name" type="text" tabindex="1" required>
+          </fieldset>
+          <fieldset>
+            <input placeholder="Your Email Address" type="email" tabindex="2" required>
+          </fieldset>
+          <fieldset>
+            <input placeholder="Your Phone Number (optional)" type="tel" tabindex="3" required>
+          </fieldset>
+          <fieldset>
+            <input placeholder="Your Web Site (optional)" type="url" tabindex="4" required>
+          </fieldset>
+          <fieldset>
+            <textarea placeholder="Type your message here...." tabindex="5" required></textarea>
+          </fieldset>
+          <fieldset>
+            <button class="btn btn-primary btn-xl js-scroll-trigger" name="submit" type="submit" data-submit="...Sending">Submit</button>
+          </fieldset>
+        </form>   
+      </div>
+    </div>
+  </section>
+</div>

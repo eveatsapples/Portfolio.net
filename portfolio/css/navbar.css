@@ -1,0 +1,6 @@
+@media (min-width: 992px) {
+  .scrolled {
+    background-color: #212529 !important;
+    transition: background-color 200ms linear;
+  }
+}

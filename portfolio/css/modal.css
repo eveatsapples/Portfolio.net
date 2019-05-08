@@ -1,0 +1,21 @@
+.modal-pills {
+  margin: 3px;
+}
+.modal-pill-a {
+  border-radius: 2px;
+}
+
+.active.modal-pill-a {
+  background-color: #f05f40;
+  color: white;
+  padding: 16px;
+}
+
+.btn.btn-default {
+  background-color: #f05f40;
+  color: white;
+}
+
+.hide-code {
+  display: none;
+} 
